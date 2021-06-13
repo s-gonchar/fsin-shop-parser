@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+    php:
+        tty: true
+        build: images/php
+        links:
+            - postgres
+        volumes:
+            - ${PROJECT_ROOT}:/var/www
+            - ./images/php/php.ini:/usr/local/etc/php/conf.d/php.ini
+            - ./images/php/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+#        command: [ "bash", "-c", "composer install && vendor/bin/doctrine-migrations migrations:migrate --no-interaction --allow-no-migration && vendor/bin/doctrine  orm:schema-tool:update --force"]
+        environment:
+            PHP_IDE_CONFIG: "serverName=Docker"
+            CONTAINER_UID: ${UID}
+        networks:
+            - internal_fsin_shop_parser
+
+    postgres:
+        image: postgres
+        ports:
+            - 5432:5432
+        volumes:
+            - ./postgres:/var/lib/postgres
+        environment:
+            - POSTGRES_DB=${DB_NAME}
+            - POSTGRES_USER=${DB_USER}
+            - POSTGRES_PASSWORD=${DB_PASSWORD}
+        networks:
+            - internal_fsin_shop_parser
+
+networks:
+    internal_fsin_shop_parser:
+        driver: bridge
