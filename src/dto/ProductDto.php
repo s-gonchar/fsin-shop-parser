@@ -9,8 +9,6 @@ class ProductDto
     public $name;
 
     public $externalId;
-
-    public $vendor;
     
     public $inStock;
 

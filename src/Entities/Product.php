@@ -38,7 +38,7 @@ class Product
 
     /**
      * @var bool
-     * @ORM\Column(type="bool")
+     * @ORM\Column(type="boolean")
      */
     private $inStock;
 

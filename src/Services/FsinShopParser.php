@@ -69,10 +69,11 @@ class FsinShopParser
         if (!$regionsBlock) {
             throw new \Exception('Regions parse failed');
         }
+        /** @var Dom\Node\HtmlNode[] $items */
         $items = $regionsBlock->find('.item');
         foreach ($items as $element) {
             $externalId = (int)$element->getAttribute('data-id');
-            $name = $element->text();
+            $name = $element->innerText();
             $region = $this->regionRepository->findOneByExternalId($externalId)
                 ?: Region::create($name, $externalId);
             $this->regionRepository->persist($region);
@@ -98,7 +99,7 @@ class FsinShopParser
             $items = $parentBlock->find('.item');
             foreach ($items as $element) {
                 $agencyExternalId = (int) $element->getAttribute('data-id');
-                $name = $element->text();
+                $name = $element->innerText();
                 $agency = $this->agencyRepository->findOneByExternalId($agencyExternalId)
                     ?: Agency::create($region, $name, $agencyExternalId);
                 $this->agencyRepository->persist($agency);
@@ -120,7 +121,10 @@ class FsinShopParser
         $items = $shopsBlock->find('.item');
         foreach ($items as $element) {
             $agencyExternalId = (int) $element->getAttribute('data-id');
-            $agency = $this->agencyRepository->getByExternalId($agencyExternalId);
+            $agency = $this->agencyRepository->findOneByExternalId($agencyExternalId);
+            if (!$agency) {
+                continue;
+            }
             $a = $element->find('a');
             $name = $a->text();
             $externalId = (int) $a->getAttribute('data-id');
@@ -178,7 +182,7 @@ class FsinShopParser
             $options
         );
 
-        $html = $response->getBody();
+        $html = $response->getBody()->getContents();
         if ($html) {
             $dom = new Dom();
             $dom->loadStr($html);

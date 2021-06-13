@@ -3,6 +3,7 @@
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Platforms\PostgreSQL100Platform;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Mapping\UnderscoreNamingStrategy;
 use Doctrine\ORM\Tools\Setup;
 use Doctrine\ORM\EntityManager;
 use Dotenv\Dotenv;
@@ -18,12 +19,12 @@ $proxyDir = null;
 $cache = null;
 $useSimpleAnnotationReader = false;
 $config = Setup::createAnnotationMetadataConfiguration([__DIR__ . "/src"], $isDevMode, $proxyDir, $cache, $useSimpleAnnotationReader);
-
+$config->setNamingStrategy(new UnderscoreNamingStrategy(CASE_LOWER));
 //$dbname = getenv('DB_NAME');
 //$username = getenv('DB_USER');
 //$password = getenv('DB_PASSWORD');
 $dbname = 'fsin_shop';
-$username = 'postgres';
+$username = 'parser';
 $password = 'secret';
 
 $platform = new PostgreSQL100Platform();
