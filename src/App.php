@@ -9,7 +9,7 @@ class App
     /** @var Container */
     private static $container;
 
-    public static function getContainerInstence(): Container
+    public static function getContainerInstance(): Container
     {
         return self::$container ?: self::buildContainer();
     }

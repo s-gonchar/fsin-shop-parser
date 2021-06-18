@@ -27,7 +27,7 @@ $dbname = 'fsin_shop';
 $username = 'parser';
 $password = 'secret';
 
-$platform = new PostgreSQL100Platform();
+//$platform = new PostgreSQL100Platform();
 $options = array(
     'dbname' => $dbname,
     'user' => $username,
@@ -35,11 +35,11 @@ $options = array(
     'host' => 'postgres',
     'port' => 5432,
     'driver' => 'pdo_pgsql',
-    'platform' => $platform,
+//    'platform' => $platform,
 );
 $connection = DriverManager::getConnection($options);
 
-$container = App::getContainerInstence();
+$container = App::getContainerInstance();
 $container->set(EntityManagerInterface::class, static function() use ($connection, $config) {
     return EntityManager::create($connection, $config);
 });

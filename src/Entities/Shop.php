@@ -58,4 +58,12 @@ class Shop
     {
         return $this->id;
     }
+
+    /**
+     * @return Agency
+     */
+    public function getAgency(): Agency
+    {
+        return $this->agency;
+    }
 }

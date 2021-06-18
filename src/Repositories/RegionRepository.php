@@ -13,7 +13,7 @@ class RegionRepository extends AbstractRepository
         $this->repo = $entityManager->getRepository(Region::class);
     }
 
-    public function findOneByExternalId(mixed $id): ?Region
+    public function findOneByExternalId($id): ?Region
     {
         /** @var Region|null $region */
         $region = $this->repo->findOneBy(['externalId' => $id]);
