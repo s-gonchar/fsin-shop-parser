@@ -31,6 +31,6 @@ class LogRepository extends AbstractRepository
         ;
 
         return $qb->getQuery()
-            ->getSingleResult();
+            ->getOneOrNullResult();
     }
 }
